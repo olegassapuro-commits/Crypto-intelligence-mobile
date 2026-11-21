@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1220"><meta name="description" content="Crypto Intelligence Lite — локальная мобильная криптоаналитика без сервера и AI">
+<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg"><link rel="stylesheet" href="style.css"><title>Crypto Intelligence Lite</title></head>
+<body><header><div><div class="eyebrow">PERSONAL MARKET TERMINAL</div><h1>Crypto Intelligence <span>Lite</span></h1></div><button id="refresh" class="iconbtn" aria-label="Обновить">↻</button></header>
+<main>
+<section class="topline"><span id="status" class="status">Подключение к рынку…</span><span id="updated">—</span></section>
+<nav id="tabs"><button class="active" data-tab="market">Рынок</button><button data-tab="analysis">Анализ</button><button data-tab="alerts">Алерты</button></nav>
+<section id="market" class="panel active"><div class="sectionhead"><h2>Избранные активы</h2><button id="addCoin" class="smallbtn">＋ Монета</button></div><div id="coins" class="coinlist"></div>
+<div class="sectionhead"><h2>График</h2><select id="symbol"></select></div><div class="charttools"><select id="interval"><option value="15m">15 мин</option><option value="1h" selected>1 час</option><option value="4h">4 часа</option><option value="1d">1 день</option><option value="1w">1 неделя</option></select><span id="chartPrice">—</span></div><div class="chartbox"><canvas id="chart"></canvas></div><div id="marketStats" class="stats"></div></section>
+<section id="analysis" class="panel"><h2>Технический анализ</h2><p class="muted">Расчёты выполняются непосредственно на телефоне по последним свечам Binance.</p><div id="analysisOut" class="analysisgrid"><div class="empty">Загружаю данные…</div></div><div class="sectionhead"><h2>Fibonacci Retracement</h2><span id="fibRange" class="muted">—</span></div><div id="fib" class="levels"></div></section>
+<section id="alerts" class="panel"><h2>Ценовые уведомления</h2><form id="alertForm"><label>Монета<select id="alertSymbol"></select></label><label>Условие<select id="condition"><option value="above">Цена выше или равна</option><option value="below">Цена ниже или равна</option></select></label><label>Цена в USDT<input id="target" type="number" min="0" step="any" required placeholder="Например, 95000"></label><button class="primary" type="submit">Создать уведомление</button></form><div class="notice">Уведомления проверяются, пока приложение открыто. Браузер телефона может ограничивать работу в фоне.</div><div id="alertList"></div></section>
+</main><footer>Данные: Binance Public API · Без аккаунта · Без собственного сервера · Без AI</footer>
+<dialog id="coinDialog"><form method="dialog"><h3>Добавить монету</h3><input id="newCoin" placeholder="Например, XRP" maxlength="12"><div class="dialogactions"><button value="cancel" class="smallbtn">Отмена</button><button id="saveCoin" value="default" class="primary">Добавить</button></div></form></dialog>
+<script src="app.js"></script></body></html>

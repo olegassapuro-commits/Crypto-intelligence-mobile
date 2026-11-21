@@ -1,0 +1,17 @@
+{
+  "name": "Crypto Intelligence Lite",
+  "short_name": "Crypto Lite",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#080e19",
+  "theme_color": "#0b1220",
+  "description": "Личная мобильная криптоаналитика без сервера и AI",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
