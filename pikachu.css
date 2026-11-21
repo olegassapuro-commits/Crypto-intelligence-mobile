@@ -1,0 +1,47 @@
+/* Crypto Intelligence Pikachu buddy: independent, visible animation layer */
+#pikaBuddy.pika-buddy{
+  display:block!important; visibility:visible!important; opacity:1!important;
+  position:fixed!important; z-index:2147483000!important;
+  left:0!important; right:auto!important;
+  bottom:calc(14px + env(safe-area-inset-bottom))!important;
+  width:78px!important; height:82px!important;
+  pointer-events:none!important; overflow:visible!important;
+  transform:translate3d(-100px,0,0);
+  animation:ci-pika-run 19s linear infinite!important;
+  will-change:transform;
+  filter:drop-shadow(0 3px 6px rgba(0,0,0,.65));
+}
+#pikaBuddy svg{display:block!important;width:100%!important;height:100%!important;overflow:visible!important}
+#pikaBuddy .pika-body{fill:#ffd94d;stroke:#bd8a1b;stroke-width:1.7}
+#pikaBuddy .pika-ear{fill:#ffd94d;stroke:#bd8a1b;stroke-width:1.7}
+#pikaBuddy .pika-eartip{fill:#24202a}
+#pikaBuddy .pika-tail{fill:none;stroke:#ffd94d;stroke-width:8;stroke-linejoin:round;stroke-linecap:square}
+#pikaBuddy .pika-cheek{fill:#ed5555}
+#pikaBuddy .pika-eye{fill:#24202a}
+#pikaBuddy .pika-mouth{fill:none;stroke:#5d342c;stroke-width:1.8;stroke-linecap:round}
+#pikaBuddy .pika-arm{fill:none;stroke:#bd8a1b;stroke-width:5;stroke-linecap:round;transform-origin:74px 66px;animation:ci-pika-wave 19s ease-in-out infinite}
+#pikaBuddy .pika-paw{fill:#ffd94d;stroke:#bd8a1b;stroke-width:1.2;transform-origin:83px 50px;animation:ci-pika-wave 19s ease-in-out infinite}
+#pikaBuddy .pika-bubble{
+ position:absolute;left:42px;top:-12px;padding:4px 8px;border-radius:10px;
+ background:#fff;color:#182333;font:11px system-ui,sans-serif;white-space:nowrap;
+ opacity:0;animation:ci-pika-hello 19s linear infinite
+}
+@keyframes ci-pika-run{
+  0%{transform:translate3d(-100px,0,0)}
+  38%{transform:translate3d(calc(50vw - 39px),0,0)}
+  45%{transform:translate3d(calc(50vw - 39px),0,0)}
+  100%{transform:translate3d(calc(100vw + 100px),0,0)}
+}
+@keyframes ci-pika-wave{
+  0%,39%,46%,100%{transform:rotate(0)}
+  40%,45%{transform:rotate(-42deg)}
+}
+@keyframes ci-pika-hello{
+  0%,39%,46%,100%{opacity:0}
+  40%,45%{opacity:1}
+}
+@media(prefers-reduced-motion:reduce){
+ #pikaBuddy.pika-buddy{animation:none!important;left:auto!important;right:8px!important;transform:none!important}
+ #pikaBuddy .pika-arm,#pikaBuddy .pika-paw,#pikaBuddy .pika-bubble{animation:none!important}
+ #pikaBuddy .pika-bubble{opacity:1}
+}

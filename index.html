@@ -1,21 +1,33 @@
 <!doctype html>
 <html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b1220"><meta name="description" content="Crypto Intelligence Lite — локальная мобильная криптоаналитика без сервера и AI">
-<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg"><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="paper.css"><title>Crypto Intelligence Lite</title></head>
+<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg"><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="paper.css"><link rel="stylesheet" href="depth.css"><link rel="stylesheet" href="pikachu.css"><link rel="stylesheet" href="preferences.css"><title>Crypto Intelligence Lite</title></head>
 <body><header><div><div class="eyebrow">PERSONAL MARKET TERMINAL</div><h1>Crypto Intelligence <span>Lite</span></h1></div><button id="refresh" class="iconbtn" aria-label="Обновить">↻</button></header>
 <main>
 <section class="topline"><span id="status" class="status">Подключение к рынку…</span><span id="updated">—</span></section>
-<nav id="tabs"><button class="active" data-tab="market">Рынок</button><button data-tab="analysis">Анализ</button><button data-tab="alerts">Алерты</button><button data-tab="paper">Симулятор</button></nav>
+<nav id="tabs"><button class="active" data-tab="market">Рынок</button><button data-tab="analysis">Анализ</button><button data-tab="alerts">Алерты</button><button data-tab="paper">Симулятор</button><button data-tab="settings">Настройки</button></nav>
 <section id="market" class="panel active"><div class="sectionhead"><h2>Избранные активы</h2><button id="addCoin" class="smallbtn">＋ Монета</button></div><div id="coins" class="coinlist"></div>
-<div class="sectionhead"><h2>График</h2><select id="symbol"></select></div><div class="charttools"><select id="interval"><option value="15m">15 мин</option><option value="1h" selected>1 час</option><option value="4h">4 часа</option><option value="1d">1 день</option><option value="1w">1 неделя</option></select><span id="chartPrice">—</span></div><div class="chartbox"><canvas id="chart"></canvas></div><div id="marketStats" class="stats"></div></section>
+<div class="sectionhead"><h2>График</h2><select id="symbol"></select></div><div class="charttools"><select id="interval"><option value="15m">15 мин</option><option value="1h" selected>1 час</option><option value="4h">4 часа</option><option value="1d">1 день</option><option value="1w">1 неделя</option></select><span id="chartPrice">—</span></div><div class="chartbox"><canvas id="chart"></canvas></div><div id="marketStats" class="stats"></div>
+<div class="depth-panel market-depth" id="marketDepthPanel"><div class="depth-head"><h3>Глубина рынка · Книга ордеров</h3><span id="marketDepthStatus" class="depth-status">Подключение…</span></div>
+<div class="depth-summary"><span>Спред <b id="marketDepthSpread">—</b></span><span>Спред % <b id="marketDepthSpreadPct">—</b></span><span>Дисбаланс <b id="marketDepthImbalance">—</b></span></div>
+<div class="depth-columns"><section><div class="depth-coltitle asks-title">Продажи · Ask</div><div id="marketDepthAsks" class="depth-rows"></div></section><section><div class="depth-coltitle bids-title">Покупки · Bid</div><div id="marketDepthBids" class="depth-rows"></div></section></div>
+<div class="depth-visual-wrap"><div class="depth-visual-title">Накопленная глубина (USDT)</div><canvas id="marketDepthCanvas" aria-label="График глубины рынка"></canvas></div>
+<p class="depth-note">Публичная книга заявок Binance Spot, первые 20 уровней. Заявки могут быть сняты до исполнения.</p></div></section>
 <section id="analysis" class="panel"><h2>Технический анализ</h2><p class="muted">Расчёты выполняются непосредственно на телефоне по последним свечам Binance.</p><div id="analysisOut" class="analysisgrid"><div class="empty">Загружаю данные…</div></div><div class="sectionhead"><h2>Fibonacci Retracement</h2><span id="fibRange" class="muted">—</span></div><div id="fib" class="levels"></div></section>
 <section id="alerts" class="panel"><h2>Ценовые уведомления</h2><form id="alertForm"><label>Монета<select id="alertSymbol"></select></label><label>Условие<select id="condition"><option value="above">Цена выше или равна</option><option value="below">Цена ниже или равна</option></select></label><label>Цена в USDT<input id="target" type="number" min="0" step="any" required placeholder="Например, 95000"></label><button class="primary" type="submit">Создать уведомление</button></form><div class="notice">Уведомления проверяются, пока приложение открыто. Браузер телефона может ограничивать работу в фоне.</div><div id="alertList"></div></section>
 <section id="paper" class="panel"><div class="sectionhead"><h2>Paper Trading</h2><button id="paperReset" class="smallbtn">Сбросить счёт</button></div>
 <div class="paper-disclaimer">Симуляция на публичных рыночных данных Binance. Сделки виртуальные, реальные ордера не отправляются. Расчёт комиссий, ликвидации и funding приблизительный.</div>
-<div class="paper-balance"><div><small>Виртуальный баланс</small><b id="paperEquity">10,000.00 USDT</b></div><div><small>Свободные средства</small><b id="paperFree">10,000.00 USDT</b></div><div><small>Общий PnL</small><b id="paperPnl">0.00 USDT</b></div></div>
+<div class="paper-balance"><div><small>Виртуальный баланс</small><b id="paperEquity">10,000.00 USDT</b></div><div><small>Свободные средства</small><b id="paperFree">10,000.00 USDT</b></div><div><small>Общий PnL</small><b id="paperPnl">0.00 USDT</b><small id="paperPnlPct" class="pnl-percent">0.00%</small></div></div>
 <div class="sectionhead"><h2>Рыночный график</h2><select id="paperSymbol"></select></div>
 <div class="paper-chart-tools"><select id="paperInterval"><option value="1m">1 мин</option><option value="5m">5 мин</option><option value="15m" selected>15 мин</option><option value="1h">1 час</option><option value="4h">4 часа</option><option value="1d">1 день</option></select><b id="paperPrice">Загрузка цены…</b></div>
-<div class="paper-chart"><canvas id="paperChart"></canvas></div><div class="paper-legend"><span>● Цена рынка</span><span>● Вход</span><span>● SL / TP</span></div>
+<div class="paper-chart"><canvas id="paperChart"></canvas></div><div class="paper-legend"><span>● Цена рынка</span><span>● Вход</span><span>● Stop Loss</span><span>● Take Profit</span></div>
+<div class="depth-panel" id="depthPanel">
+ <div class="depth-head"><h3>Глубина рынка · Книга ордеров</h3><span id="depthStatus" class="depth-status">Подключение…</span></div>
+ <div class="depth-summary"><span>Спред <b id="depthSpread">—</b></span><span>Спред % <b id="depthSpreadPct">—</b></span><span>Дисбаланс <b id="depthImbalance">—</b></span></div>
+ <div class="depth-columns"><section><div class="depth-coltitle asks-title">Продажи · Ask</div><div id="depthAsks" class="depth-rows"></div></section><section><div class="depth-coltitle bids-title">Покупки · Bid</div><div id="depthBids" class="depth-rows"></div></section></div>
+ <div class="depth-visual-wrap"><div class="depth-visual-title">Накопленная глубина (USDT)</div><canvas id="depthCanvas" aria-label="График глубины рынка"></canvas></div>
+ <p class="depth-note">Публичная книга заявок Binance, первые 20 уровней. Это объём лимитных заявок, а не гарантированная ликвидность: ордера могут быть сняты.</p>
+</div>
 <h2>Новая виртуальная сделка</h2><form id="paperForm" class="paper-form">
 <label>Рынок<select id="paperMarket"><option value="futures">Perpetual Futures (симуляция)</option><option value="spot">Spot</option></select></label>
 <div class="paper-two"><label>Направление<select id="paperSide"><option value="long">Long</option><option value="short">Short</option></select></label><label>Тип ордера<select id="paperOrderType"><option value="market">Market</option><option value="limit">Limit</option></select></label></div>
@@ -28,6 +40,25 @@
 <div class="sectionhead"><h2>История сделок</h2><button id="paperExport" class="smallbtn">Экспорт CSV</button></div><div id="paperHistory" class="paper-list"></div>
 <div class="paper-footnote">Модель: Spot fee 0,10% за сторону; Futures fee 0,05% за сторону; maintenance margin 0,5%. Это условные параметры симулятора, не тарифы Binance. Funding рассчитывается оценочно по последней доступной ставке и времени удержания. Ликвидация использует упрощённую модель и может отличаться от биржевой.</div>
 </section>
-</main><footer>Данные: Binance Public API · Без аккаунта · Без собственного сервера · Без AI</footer>
+<section id="settings" class="panel"><h2>Настройки интерфейса</h2>
+<div class="settings-card"><h3>Фон приложения</h3><p class="muted">Изображение хранится только в браузере этого телефона. Максимальный размер 2 МБ.</p><label class="file-picker">Загрузить изображение фона<input id="bgUpload" type="file" accept="image/png,image/jpeg,image/webp"></label>
+<div class="settings-row"><label>Затемнение фона <input id="bgDim" type="range" min="20" max="95" value="78"></label><button id="removeBg" class="smallbtn">Убрать фон</button></div></div>
+<div class="settings-card"><h3>Вид интерфейса</h3><label>Тема<select id="uiTheme"><option value="midnight">Midnight</option><option value="emerald">Emerald</option><option value="violet">Violet</option><option value="light">Light</option></select></label>
+<label>Акцентный цвет<input id="uiAccent" type="color" value="#35d39a"></label><label>Прозрачность карточек <input id="cardOpacity" type="range" min="65" max="100" value="96"></label>
+<label>Размер текста<select id="fontScale"><option value="0.9">Маленький</option><option value="1" selected>Обычный</option><option value="1.1">Крупный</option></select></label><label class="checkline"><input id="compactMode" type="checkbox"> Компактный интерфейс</label><button id="resetUi" class="smallbtn">Сбросить настройки интерфейса</button></div>
+<div class="settings-card"><h3>Список монет</h3><p class="muted">Добавлены NEAR, LINK, PEPE, HYPE и TAO. Доступность пары зависит от листинга Binance USDT.</p><div id="settingsCoins" class="settings-coins"></div></div></section></main>
+<div id="pikaBuddy" class="pika-buddy" aria-label="Пикачу машет и пробегает по экрану" role="img">
+ <svg viewBox="0 0 100 100" aria-hidden="true">
+  <path class="pika-tail" d="M76 65 L88 55 L82 44 L94 38 L88 28 L98 22 L98 12 L84 18 L77 29 L83 40 L70 48"/>
+  <path class="pika-ear" d="M31 31 Q17 2 10 5 Q8 28 24 43Z"/><path class="pika-eartip" d="M10 5 Q18 4 22 25 L17 22Z"/>
+  <path class="pika-ear" d="M64 31 Q82 1 91 7 Q92 31 72 44Z"/><path class="pika-eartip" d="M91 7 Q82 5 75 27 L84 20Z"/>
+  <ellipse class="pika-body" cx="51" cy="58" rx="29" ry="31"/>
+  <ellipse class="pika-cheek" cx="29" cy="61" rx="8" ry="7"/><ellipse class="pika-cheek" cx="73" cy="61" rx="8" ry="7"/>
+  <ellipse class="pika-eye" cx="41" cy="48" rx="2.8" ry="4"/><ellipse class="pika-eye" cx="61" cy="48" rx="2.8" ry="4"/>
+  <path class="pika-mouth" d="M47 60 Q51 65 56 60"/><ellipse class="pika-body" cx="39" cy="85" rx="10" ry="5"/><ellipse class="pika-body" cx="64" cy="85" rx="10" ry="5"/>
+  <path class="pika-arm" d="M72 65 Q85 67 84 49"/><path class="pika-paw" d="M79 47 Q82 40 87 44 Q92 49 86 54 Q82 57 79 52Z"/>
+ </svg><span class="pika-bubble">Привет!</span>
+</div>
+<footer>Данные: Binance Public API · Без аккаунта · Без собственного сервера · Без AI</footer>
 <dialog id="coinDialog"><form method="dialog"><h3>Добавить монету</h3><input id="newCoin" placeholder="Например, XRP" maxlength="12"><div class="dialogactions"><button value="cancel" class="smallbtn">Отмена</button><button id="saveCoin" value="default" class="primary">Добавить</button></div></form></dialog>
-<script src="app.js"></script><script src="paper.js"></script></body></html>
+<script src="app.js"></script><script src="paper.js"></script><script src="depth.js"></script><script src="preferences.js"></script><script src="market-depth.js"></script></body></html>

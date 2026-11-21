@@ -1,6 +1,8 @@
 const $=id=>document.getElementById(id);
 const API="https://api.binance.com/api/v3";
-let watch=JSON.parse(localStorage.getItem("ci_watch")||'["BTC","ETH","SOL","DOGE"]');
+let watch=JSON.parse(localStorage.getItem("ci_watch")||'["BTC","ETH","SOL","DOGE","NEAR","LINK","PEPE","HYPE","TAO"]');
+['NEAR','LINK','PEPE','HYPE','TAO'].forEach(c=>{if(!watch.includes(c))watch.push(c);});
+localStorage.setItem('ci_watch',JSON.stringify(watch));
 let candles=[],lastPrices={},alerts=JSON.parse(localStorage.getItem("ci_alerts")||"[]");
 const fmt=n=>Number(n).toLocaleString("en-US",{maximumFractionDigits:n<1?8:2});
 const sym=()=> $("symbol").value||watch[0];
@@ -18,7 +20,7 @@ function checkAlerts(){let changed=false;alerts.forEach(a=>{let p=lastPrices[a.c
 $("tabs").addEventListener("click",e=>{const b=e.target.closest("button[data-tab]");if(!b)return;document.querySelectorAll("nav button,.panel").forEach(x=>x.classList.remove("active"));b.classList.add("active");$(b.dataset.tab).classList.add("active")});
 $("symbol").addEventListener("change",loadChart);$("interval").addEventListener("change",loadChart);$("refresh").onclick=async()=>{await loadTickers();await loadChart()};
 $("addCoin").onclick=()=>$("coinDialog").showModal();$("saveCoin").onclick=e=>{e.preventDefault();const c=$("newCoin").value.trim().toUpperCase().replace(/[^A-Z0-9]/g,"");if(!c)return;if(watch.includes(c))return alert("Монета уже добавлена");watch.push(c);persist();syncSymbols();loadTickers();$("coinDialog").close();$("newCoin").value=""};
-function syncSymbols(){const html=watch.map(c=>`<option>${c}</option>`).join("");$("symbol").innerHTML=html;$("alertSymbol").innerHTML=html}
+function syncSymbols(){const html=watch.map(c=>`<option>${c}</option>`).join("");$("symbol").innerHTML=html;$("alertSymbol").innerHTML=html;const p=$("paperSymbol");if(p){const old=p.value;p.innerHTML=html;if(watch.includes(old))p.value=old;}}
 $("alertForm").onsubmit=async e=>{e.preventDefault();if("Notification"in window&&Notification.permission==="default")await Notification.requestPermission();alerts.push({coin:$("alertSymbol").value,op:$("condition").value,price:+$("target").value,done:false});persist();renderAlerts();$("target").value=""};
 $("alertList").onclick=e=>{const b=e.target.closest("[data-del]");if(b){alerts.splice(+b.dataset.del,1);persist();renderAlerts()}};
 window.addEventListener("resize",drawChart);
